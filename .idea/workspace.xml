@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d67e99e5-1206-4f04-8445-65ac7e2abea5" name="Default Changelist" comment="" />
+    <list default="true" id="d67e99e5-1206-4f04-8445-65ac7e2abea5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/lib/src/extensions/list.extenstion.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/extensions/list.extenstion.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,8 +20,11 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -29,8 +34,20 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1612357749024</updated>
+      <workItem from="1613602788607" duration="730000" />
     </task>
+    <task id="LOCAL-00001" summary="Revert &quot;v1.1.1&quot;&#10;&#10;This reverts commit 723c0602">
+      <created>1613603472218</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1613603472218</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -42,5 +59,10 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Revert &quot;v1.1.1&quot;&#10;&#10;This reverts commit 723c0602" />
+    <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;v1.1.1&quot;&#10;&#10;This reverts commit 723c0602" />
   </component>
 </project>

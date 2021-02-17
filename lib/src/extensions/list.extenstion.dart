@@ -136,8 +136,4 @@ extension ListExtension<T> on List<T> {
     }
     return resultArray;
   }
-  /* //TODO: To continue.
-  List<T> $copyWithin(int target, int start, int? end) {
-    return this;
-  } */
 }
