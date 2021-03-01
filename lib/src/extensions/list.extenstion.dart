@@ -1,6 +1,8 @@
 import 'dart:core';
 import 'dart:math';
 
+import 'package:dartplus/src/utils/functions/list/fns.index.dart';
+
 extension ListExtension<T> on List<T> {
   int unshift(List<T> items) {
     ArgumentError.checkNotNull(items);
@@ -36,9 +38,7 @@ extension ListExtension<T> on List<T> {
     }
   }
 
-  void forEachIndexed(
-    void Function(T item, int index) callbackfn,
-  ) {
+  void forEachIndexed(void Function(T item, int index) callbackfn) {
     ArgumentError.checkNotNull(callbackfn);
 
     final l = length;
@@ -78,6 +78,41 @@ extension ListExtension<T> on List<T> {
   }
 
   List<T> reverse() => List.from(reversed);
+
+  /// Copies part of array to another.
+  ///
+  /// @param [target] - target array (updated)
+  ///
+  /// @param [writeIndex] - write index (0)
+  ///
+  /// @param [readStartIndex] - read start index (0)
+  ///
+  /// @param [readEndIndex] - read end index (X)
+  ///
+  /// @returns - [target]
+
+  List<T> copyTo(
+    List<T> target, [
+    int writeIndex = 0,
+    int readStartIndex = 0,
+    int readEndIndex,
+  ]) {
+    ArgumentError.checkNotNull(target);
+
+    readEndIndex ??= length;
+
+    writeIndex = index(target, writeIndex);
+    var result = indexRange(this, readStartIndex, readEndIndex);
+
+    readStartIndex = result[0];
+    readEndIndex = result[1];
+
+    for (; readStartIndex < readEndIndex; readStartIndex++, writeIndex++) {
+      target[writeIndex] = this[readStartIndex];
+    }
+
+    return target;
+  }
 
   List<T> copyWithin(int target, int start, [int end]) {
     ArgumentError.checkNotNull(target);
