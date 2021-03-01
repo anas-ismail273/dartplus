@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:math';
 
 extension ListExtension<T> on List<T> {
   int unshift(List<T> items) {
@@ -36,7 +37,7 @@ extension ListExtension<T> on List<T> {
   }
 
   void forEachIndexed(
-    void Function(T item, int index, List<T> array) callbackfn,
+    void Function(T item, int index) callbackfn,
   ) {
     ArgumentError.checkNotNull(callbackfn);
 
@@ -44,7 +45,7 @@ extension ListExtension<T> on List<T> {
 
     for (var index = 0; index < l; index += 1) {
       final value = this[index];
-      callbackfn(value, index, this);
+      callbackfn(value, index);
     }
   }
 
@@ -76,64 +77,96 @@ extension ListExtension<T> on List<T> {
     return temp;
   }
 
-  List<T> slice(int start, [int end]) {
-    ArgumentError.checkNotNull(start);
-    final resultArray = <T>[];
-    final targetedArray = this;
+  List<T> reverse() => List.from(reversed);
 
-    if (end == null) {
-      for (var i = start; i < targetedArray.length; ++i) {
-        resultArray.add(targetedArray[i]);
-      }
-    } else {
-      for (var i = start; i < end; ++i) {
-        resultArray.add(targetedArray[i]);
+  List<T> copyWithin(int target, int start, [int end]) {
+    int fix(int index, int length) {
+      return index < 0 ? max(length + index, 0) : min(length, index);
+    }
+
+    end ??= length;
+
+    target = fix(target, length);
+    start = fix(start, length);
+    end = fix(end, length);
+
+    var reverse = start > end;
+    var count = (reverse ? start - end : end - start);
+
+    while (count > 0) {
+      count--;
+
+      var from = !reverse ? start + count : end - count;
+      var to = !reverse ? target + count : target - count;
+
+      if (asMap().containsKey(from)) {
+        this[to] = this[from];
+      } else {
+        removeAt(to);
       }
     }
 
-    return resultArray;
+    return this;
+  }
+
+  List<T> slice(int start, [int end]) {
+    ArgumentError.checkNotNull(start);
+
+    final result = <T>[];
+
+    if (end == null) {
+      for (var i = start; i < length; ++i) {
+        result.add(this[i]);
+      }
+    } else {
+      for (var i = start; i < end; ++i) {
+        result.add(this[i]);
+      }
+    }
+
+    return result;
   }
 
   List<T> splice(int start, [int deleteCount, List<T> items]) {
     ArgumentError.checkNotNull(start);
 
-    final targetedArray = this;
-    final resultArray = <T>[];
+    final targetedArr = this;
+    final resultArr = <T>[];
 
-    if (start > targetedArray.length) {
-      start = targetedArray.length;
+    if (start > targetedArr.length) {
+      start = targetedArr.length;
       if (items != null) {
-        targetedArray.insertAll(start, items);
+        targetedArr.insertAll(start, items);
         return [];
       }
     } else if (start < 0) {
       start = 0;
     }
 
-    if (deleteCount == null || deleteCount >= targetedArray.length - start) {
-      for (var i = start; i < targetedArray.length; ++i) {
-        resultArray.add(targetedArray[i]);
+    if (deleteCount == null || deleteCount >= targetedArr.length - start) {
+      for (var i = start; i < targetedArr.length; ++i) {
+        resultArr.add(targetedArr[i]);
       }
-      targetedArray.removeRange(start, targetedArray.length);
+      targetedArr.removeRange(start, targetedArr.length);
       if (items != null) {
-        targetedArray.insertAll(start, items);
+        targetedArr.insertAll(start, items);
       }
-      return resultArray;
+      return resultArr;
     }
 
     if (deleteCount <= 0) {
       if (items != null) {
-        targetedArray.insertAll(start, items);
+        targetedArr.insertAll(start, items);
       }
       return [];
     }
     for (var i = start; i < start + deleteCount; ++i) {
-      resultArray.add(targetedArray[i]);
+      resultArr.add(targetedArr[i]);
     }
-    targetedArray.removeRange(start, start + deleteCount);
+    targetedArr.removeRange(start, start + deleteCount);
     if (items != null) {
-      targetedArray.insertAll(start, items);
+      targetedArr.insertAll(start, items);
     }
-    return resultArray;
+    return resultArr;
   }
 }

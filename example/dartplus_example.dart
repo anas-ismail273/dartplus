@@ -1,3 +1,7 @@
 import 'package:dartplus/dartplus.dart';
 
-void main() {}
+void main() {
+  var a = [1, 2, 3, 4, 5];
+
+  print(a.copyWithin(0, -2, -1));
+}
