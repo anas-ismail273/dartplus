@@ -83,30 +83,30 @@ extension ListExtension<T> on List<T> {
     ArgumentError.checkNotNull(target);
     ArgumentError.checkNotNull(start);
 
-    int fix(int index, int length) {
-      return index < 0 ? max(length + index, 0) : min(length, index);
-    }
-
     end ??= length;
 
-    target = fix(target, length);
-    start = fix(start, length);
-    end = fix(end, length);
+    var to = target < 0 ? max(length + target, 0) : min(target, length);
+    var from = start < 0 ? max(length + start, 0) : min(start, length);
+    var last = end < 0 ? max(length + end, 0) : min(end, length);
+    var count = min(last - from, length - to);
+    var direction = 1;
 
-    var reverse = start > end;
-    var count = (reverse ? start - end : end - start);
+    if (from < to && to < (from + count)) {
+      direction = -1;
+      from += count - 1;
+      to += count - 1;
+    }
 
     while (count > 0) {
-      count--;
-
-      var from = !reverse ? start + count : end - count;
-      var to = !reverse ? target + count : target - count;
-
       if (asMap().containsKey(from)) {
         this[to] = this[from];
       } else {
         removeAt(to);
       }
+
+      from += direction;
+      to += direction;
+      count--;
     }
 
     return this;
