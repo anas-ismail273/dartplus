@@ -80,6 +80,9 @@ extension ListExtension<T> on List<T> {
   List<T> reverse() => List.from(reversed);
 
   List<T> copyWithin(int target, int start, [int end]) {
+    ArgumentError.checkNotNull(target);
+    ArgumentError.checkNotNull(start);
+
     int fix(int index, int length) {
       return index < 0 ? max(length + index, 0) : min(length, index);
     }
