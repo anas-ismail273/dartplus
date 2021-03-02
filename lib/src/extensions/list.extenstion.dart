@@ -1,93 +1,41 @@
 import 'dart:core';
-import 'dart:math';
 
-import 'package:dartplus/src/utils/functions/list/fns.index.dart';
+import 'methods-list/generic/methods.index.dart';
 
 extension ListExtension<T> on List<T> {
   int unshift(List<T> items) {
-    ArgumentError.checkNotNull(items);
-
-    for (var i = items.length - 1; i >= 0; i--) {
-      insert(0, items[i]);
-    }
-
-    return length;
+    return unshift$(this, items);
   }
 
   T shift({T Function() onError}) {
-    try {
-      return removeAt(0);
-    } catch (_) {
-      if (onError == null) {
-        rethrow;
-      } else {
-        return onError();
-      }
-    }
+    return shift$(this, onError: onError);
   }
 
   T pop({T Function() onError}) {
-    try {
-      return removeLast();
-    } catch (_) {
-      if (onError == null) {
-        rethrow;
-      } else {
-        return onError();
-      }
-    }
+    return pop$(this, onError: onError);
   }
 
   void forEachIndexed(void Function(T item, int index) callbackfn) {
-    ArgumentError.checkNotNull(callbackfn);
-
-    final l = length;
-
-    for (var index = 0; index < l; index += 1) {
-      final value = this[index];
-      callbackfn(value, index);
-    }
+    return forEachIndexed$(this, callbackfn);
   }
 
   T at(int index, {T Function() onError}) {
-    ArgumentError.checkNotNull(index);
-
-    try {
-      if (length == 0) {
-        throw RangeError('Valid value range is empty');
-      }
-
-      return index >= 0 ? elementAt(index) : this[length - (index.abs())];
-    } catch (_) {
-      if (onError == null) {
-        rethrow;
-      } else {
-        return onError();
-      }
-    }
+    return at$(this, index, onError: onError);
   }
 
   List<T> concat(List<List<T>> arrays) {
-    ArgumentError.checkNotNull(arrays);
-
-    var temp = this;
-
-    arrays.forEach((array) => temp += array);
-
-    return temp;
+    return concat$(this, arrays);
   }
-
-  List<T> reverse() => List.from(reversed);
 
   /// Copies part of array to another.
   ///
   /// @param [target] - target array (updated)
   ///
-  /// @param [writeIndex] - write index (0)
+  /// @param [writeIndex] - write index
   ///
-  /// @param [readStartIndex] - read start index (0)
+  /// @param [readStartIndex] - read start index
   ///
-  /// @param [readEndIndex] - read end index (X)
+  /// @param [readEndIndex] - read end index
   ///
   /// @returns - [target]
 
@@ -97,114 +45,18 @@ extension ListExtension<T> on List<T> {
     int readStartIndex = 0,
     int readEndIndex,
   ]) {
-    ArgumentError.checkNotNull(target);
-
-    readEndIndex ??= length;
-
-    writeIndex = index(target, writeIndex);
-    var result = indexRange(this, readStartIndex, readEndIndex);
-
-    readStartIndex = result[0];
-    readEndIndex = result[1];
-
-    for (; readStartIndex < readEndIndex; readStartIndex++, writeIndex++) {
-      target[writeIndex] = this[readStartIndex];
-    }
-
-    return target;
+    return copyTo$(this, target, writeIndex, readStartIndex, readEndIndex);
   }
 
   List<T> copyWithin(int target, int start, [int end]) {
-    ArgumentError.checkNotNull(target);
-    ArgumentError.checkNotNull(start);
-
-    end ??= length;
-
-    var to = target < 0 ? max(length + target, 0) : min(target, length);
-    var from = start < 0 ? max(length + start, 0) : min(start, length);
-    var last = end < 0 ? max(length + end, 0) : min(end, length);
-    var count = min(last - from, length - to);
-    var direction = 1;
-
-    if (from < to && to < (from + count)) {
-      direction = -1;
-      from += count - 1;
-      to += count - 1;
-    }
-
-    while (count > 0) {
-      if (asMap().containsKey(from)) {
-        this[to] = this[from];
-      } else {
-        removeAt(to);
-      }
-
-      from += direction;
-      to += direction;
-      count--;
-    }
-
-    return this;
+    return copyWithin$(this, target, start, end);
   }
 
   List<T> slice(int start, [int end]) {
-    ArgumentError.checkNotNull(start);
-
-    final result = <T>[];
-
-    if (end == null) {
-      for (var i = start; i < length; ++i) {
-        result.add(this[i]);
-      }
-    } else {
-      for (var i = start; i < end; ++i) {
-        result.add(this[i]);
-      }
-    }
-
-    return result;
+    return slice$(this, start, end);
   }
 
   List<T> splice(int start, [int deleteCount, List<T> items]) {
-    ArgumentError.checkNotNull(start);
-
-    final targetedArr = this;
-    final resultArr = <T>[];
-
-    if (start > targetedArr.length) {
-      start = targetedArr.length;
-      if (items != null) {
-        targetedArr.insertAll(start, items);
-        return [];
-      }
-    } else if (start < 0) {
-      start = 0;
-    }
-
-    if (deleteCount == null || deleteCount >= targetedArr.length - start) {
-      for (var i = start; i < targetedArr.length; ++i) {
-        resultArr.add(targetedArr[i]);
-      }
-      targetedArr.removeRange(start, targetedArr.length);
-      if (items != null) {
-        targetedArr.insertAll(start, items);
-      }
-      return resultArr;
-    }
-
-    if (deleteCount <= 0) {
-      if (items != null) {
-        targetedArr.insertAll(start, items);
-      }
-      return [];
-    }
-    for (var i = start; i < start + deleteCount; ++i) {
-      resultArr.add(targetedArr[i]);
-    }
-    targetedArr.removeRange(start, start + deleteCount);
-    if (items != null) {
-      targetedArr.insertAll(start, items);
-    }
-    return resultArr;
+    return splice$(this, start, deleteCount, items);
   }
 }
