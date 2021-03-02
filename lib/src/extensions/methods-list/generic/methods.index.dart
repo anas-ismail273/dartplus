@@ -9,3 +9,4 @@ export 'at.method.dart';
 export 'concat.method.dart';
 export 'slice.method.dart';
 export 'splice.method.dart';
+export 'max-min.method.dart';

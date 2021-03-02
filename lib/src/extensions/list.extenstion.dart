@@ -59,4 +59,12 @@ extension ListExtension<T> on List<T> {
   List<T> splice(int start, [int deleteCount, List<T> items]) {
     return splice$(this, start, deleteCount, items);
   }
+
+  List<T> max(Comparator<T> comparator, {bool all = false}) {
+    return max$(this, comparator, all: all);
+  }
+
+  List<T> min(Comparator<T> comparator, {bool all = false}) {
+    return min$(this, comparator, all: all);
+  }
 }
